@@ -1,0 +1,15 @@
+seed: 1042
+message_length: 32
+
+data:
+  train_data_path: ~
+  test_data_path: ~
+
+test:
+  dataset: CelebA-HQ
+  run_folder: ~ # Your path to store all the perturbed images folder
+  store_folder: ~ # the name of folder for saving perturbed image in runs_folder
+  
+train: ~
+
+

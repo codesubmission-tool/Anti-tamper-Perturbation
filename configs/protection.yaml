@@ -1,0 +1,10 @@
+ 
+instance_dir: ~ # the path for image to be perturbed
+
+output_dir: ~ # the output path for perturbed image
+
+mask: ~ # the path of the mask for perturbation
+
+CAAT: 
+  radius: 0.25 
+  step_size: 25e-3

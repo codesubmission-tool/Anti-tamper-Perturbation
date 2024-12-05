@@ -1,0 +1,8 @@
+test
+test_protect
+*cpython*
+*pycache*
+evaluation/data
+configs_mine
+configs_clean
+authorization/scripts/infer_mypath.sh

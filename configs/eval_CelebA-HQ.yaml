@@ -1,0 +1,20 @@
+ 
+instance_dir: ~ # the path for dataset image
+
+target_dir: ~  # the output path for perturbed image
+
+CAAT: 
+  dir_suffix: 250/
+  img_prefix: 250_noise_
+
+ANTIDB: 
+  dir_suffix: ~
+  img_prefix: ~
+
+ADVDM: 
+  dir_suffix: ~
+  img_prefix: ~
+
+METACLOAK: 
+  dir_suffix: ~
+  img_prefix: ~
