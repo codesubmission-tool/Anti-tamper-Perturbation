@@ -25,6 +25,8 @@ The links for datasets can be found from [FFHQ](https://github.com/NVlabs/ffhq-d
 Modify the settings defined on ./configs/authorization.yaml
 
 ```
+cd authorization
+
 bash scripts/infer.sh 
 ```
 **Protection Perturbation**
@@ -36,6 +38,16 @@ cd protection
 
 python protection --method CAAT
 
+```
+
+**Verification after the Perturbation**
+
+Modify the settings defined on ./configs/protection.yaml
+
+```
+cd authorization
+
+bash scripts/verify.sh 
 ```
 
 

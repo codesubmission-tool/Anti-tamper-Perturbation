@@ -37,7 +37,7 @@ def load_config(config_file):
         config = yaml.safe_load(f)
     return config
 
-config = load_config('../configs/authorization.yaml')
+config = load_config('../configs/verification.yaml')
 
 logging.basicConfig(level=logging.INFO,
     format='%(message)s',
@@ -48,61 +48,22 @@ logging.basicConfig(level=logging.INFO,
 seed = config['seed']
 utils.set_seed(seed)
 message_length = config['message_length']
-run_folder = config['test']['run_folder']
-store_folder = config['test']['store_folder']
-
+message_dir = config['message_dir']
+target_dir = config['target_dir']
+method = config['method']
+dir_suffix = config[method]['dir_suffix']
+img_prefix = config[method]['img_prefix']
 
 print('seed:', seed)
 print('message_length:', message_length)
-print('running_folder:', os.path.join(run_folder,store_folder))
+
 args = options.get_args()
 locals().update(vars(args))
 
 
 model = HIDNet(device,gamma=gamma,randomFlag=random_maskFlag,input_mask=input_mask,pixel_space=pixel_space)
-
-dataset = config['test']['dataset']
-assert dataset=='CelebA-HQ' or dataset=='VGGFace2'
-if dataset == 'CelebA-HQ':
-    val_dataloader = torch.utils.data.DataLoader(CelebADataset(train=False,get_path=True,path=config['data']['test_data_path']), batch_size=10, shuffle=False)
-else:
-    val_dataloader = torch.utils.data.DataLoader(VGGFaceDataset(train=False,get_path=True,path=config['data']['test_data_path']), batch_size=10, shuffle=False)
-
 if path is not None:
     model_from_checkpoint(model,torch.load(path,map_location=device))
-
-###########Authorization###########
-
-
-val_losses = {}
-testdir = os.path.join(run_folder,store_folder)
-transform = transforms.Compose([
-            transforms.Resize((512,512)),
-            transforms.ToTensor(),
-            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
-        ])
-
-for batch_id, (path,image) in tqdm(enumerate(val_dataloader)):
-    image = image.to(device)
-    message = utils.get_phis(phi_dimension=message_length,batch_size=image.shape[0]).to(device)
-    losses, (encoded_images, random_mask, decoded_messages) = model.val_one_batch([image,message])
-    # print('bitwise-error:',losses['bitwise-error  '])
-    for key in losses:
-        if key not in val_losses:
-            val_losses[key] = 0
-        val_losses[key] += losses[key]
-    
-    for id, e_img in enumerate(encoded_images):
-        # print(id)
-        image_name = path[id].split('/')[-1].split('.')[0]
-        id_dir = path[id].split('/')[-3]
-        set_dir = path[id].split('/')[-2]
-        dir_path = os.path.join(testdir,id_dir,set_dir)
-        os.makedirs(dir_path,exist_ok=True)
-        transforms.ToPILImage()(((e_img.clip(-1,1)+1)/2).clip(0,1).cpu()).save('%s/%s.png'%(dir_path,image_name))
-        # print(image_name)
-        torch_set ={'random_mask':random_mask.cpu(),'message':message[id].cpu()}
-        torch.save(torch_set,'%s/%s.pt'%(testdir,image_name))
         
 ###########Verification###########
 random_mask = model.random_mask
@@ -110,7 +71,7 @@ model = model.encoder_decoder
 model.eval()
 bitwise_avg_err = []
 
-paths = glob(f'{testdir}/*/set_B/*.png')
+paths = glob(f'{target_dir}/*/{dir_suffix}/*.png')
 
 # meaningless_suffix = "noise-ckpt/50"
 
@@ -122,7 +83,7 @@ transform = transforms.Compose([
             transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
         ])
 
-test_set = testdir
+test_set = message_dir
 print('noise_type',noise_type)
 print('noise_args',noise_args)
 
@@ -138,7 +99,7 @@ for path in tqdm(paths):
         image = degrader.degrade(image).unsqueeze(0)
     image = image.to(device)
     image_name = image_path.split('/')[-1]
-    torch_set = torch.load(os.path.join(test_set,image_name.replace('.png','.pt').replace('50_noise_','')))
+    torch_set = torch.load(os.path.join(test_set,image_name.replace('.png','.pt').replace(img_prefix,'')))
     message = torch_set['message'].to(device)
     random_mask = torch_set['random_mask'].to(device)
     img_dct_masked, img_dct, random_mask = model.dctlayer(image,random_mask=random_mask)
@@ -147,7 +108,6 @@ for path in tqdm(paths):
     decoded_rounded = decoded_message.detach().cpu().numpy().round().clip(0, 1)
     bitwise_avg_err.append(np.sum(np.abs(decoded_rounded - message.round().detach().cpu().numpy())) / (
             message.shape[0]))
-
 
 print('Average Bit-Error:',np.array(bitwise_avg_err).mean())
 

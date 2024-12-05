@@ -1,4 +1,4 @@
-python infer.py \
+python verify.py \
 --device cuda:0 \
 --gamma 0.5 \
 --path  model path

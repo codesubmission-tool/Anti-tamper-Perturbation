@@ -1048,9 +1048,9 @@ def main(args):
                         infer(save_path, prompts, n_img=16, bs=4, n_steps=100)
                         logger.info(f"Saved state to {save_path}")
                         print(save_path)
-                        # for dir in glob(save_path+'/*'):
-                        #     if not dir.split('/')[-1] == 'dreambooth':
-                        #         os.system('rm -r %s'%dir) 
+                        for dir in glob(save_path+'/*'):
+                            if not dir.split('/')[-1] == 'dreambooth':
+                                os.system('rm -r %s'%dir) 
 
             logs = {"loss": loss.detach().item(), "lr": lr_scheduler.get_last_lr()[0]}
             progress_bar.set_postfix(**logs)
