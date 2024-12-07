@@ -42,7 +42,7 @@ python protection --method CAAT
 
 **Verification after the Perturbation**
 
-Modify the settings defined on ./configs/protection.yaml
+Modify the settings defined on ./configs/verification.yaml
 
 ```
 cd authorization
@@ -50,6 +50,29 @@ cd authorization
 bash scripts/verify.sh 
 ```
 
+**Generation after the Perturbation**
+
+Modify the settings defined on ./configseval_{CelebA-HQ}/{VGGFac2}
+
+```
+cd evaluation
+
+python generate.py --dataset CelebA-HQ --method CAAT
+```
+
+**Protection Performance calculation after the Generation**
+
+Modify the settings defined on ./configs/metrics.yaml
+
+Download [LIQE.pt](https://drive.google.com/file/d/1GoKwUKNR-rvX11QbKRN8MuBZw2hXKHGh/view) from [url]{https://github.com/zwx8981/LIQE}. Place it to ./metrics/LIQE/checkpoints
+
+```
+cd metrics
+
+python eval.py --dataset CelebA-HQ --method CAAT
+
+python show.py --path evaluation_results
+```
 
 <!-- **Complete ATP Pipeline** -->
 

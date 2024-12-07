@@ -7,3 +7,9 @@ configs_mine
 configs_clean
 authorization/scripts/infer_mypath.sh
 authorization/scripts/verify_mypath.sh
+metrics/LIQE/checkpoints/*
+metrics/LIQE/data/*
+metrics/LIQE/IQA_Database/*
+metrics/LIQE/*png
+paper_figure
+metrics/results
