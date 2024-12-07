@@ -64,7 +64,7 @@ python generate.py --dataset CelebA-HQ --method CAAT
 
 Modify the settings defined on ./configs/metrics.yaml
 
-Download [LIQE.pt](https://drive.google.com/file/d/1GoKwUKNR-rvX11QbKRN8MuBZw2hXKHGh/view) from [url]{https://github.com/zwx8981/LIQE}. Place it to ./metrics/LIQE/checkpoints
+Download [LIQE.pt](https://drive.google.com/file/d/1GoKwUKNR-rvX11QbKRN8MuBZw2hXKHGh/view) from [url](https://github.com/zwx8981/LIQE). Place it to ./metrics/LIQE/checkpoints
 
 ```
 cd metrics
