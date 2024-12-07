@@ -13,3 +13,5 @@ metrics/LIQE/IQA_Database/*
 metrics/LIQE/*png
 paper_figure
 metrics/results
+metrics/get_avg_id.py
+metrics/id_embed/*

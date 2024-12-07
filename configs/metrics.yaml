@@ -6,8 +6,7 @@ output_dir: ~  # the output dir for evaluation result, the results file will be 
 prompt: ~ # the input prompt for generation
 
 CelebA-HQ:
-  id_emb_path: ~
-
+  id_emb_path: ~ 
 VGGFace2:
   id_emb_path: ~
 

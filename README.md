@@ -37,7 +37,6 @@ Modify the settings defined on ./configs/protection.yaml
 cd protection
 
 python protection --method CAAT
-
 ```
 
 **Verification after the Perturbation**
