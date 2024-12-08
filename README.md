@@ -61,6 +61,8 @@ python generate.py --dataset CelebA-HQ --method CAAT
 
 **Protection Performance calculation after the Generation**
 
+Download ID embedding from [release sources](https://github.com/codesubmission-tool/Anti-tamper-Perturbation/releases).  
+
 Modify the settings defined on ./configs/metrics.yaml
 
 Download [LIQE.pt](https://drive.google.com/file/d/1GoKwUKNR-rvX11QbKRN8MuBZw2hXKHGh/view) from [url](https://github.com/zwx8981/LIQE). Place it to ./metrics/LIQE/checkpoints
