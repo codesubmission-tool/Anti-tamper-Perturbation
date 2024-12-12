@@ -396,6 +396,12 @@ def parse_args(input_args=None):
     parser.add_argument("--noise-args",
                         default=0.5, type=float,
                         help="noise args")
+    
+    parser.add_argument(
+        "--suffix",
+        type=str,
+        default=""
+    )
 
     if input_args is not None:
         args = parser.parse_args(input_args)
@@ -1033,7 +1039,7 @@ def main(args):
                 if global_step % args.checkpointing_steps == 0:
                     if accelerator.is_main_process:
                         if args.noise_type is None:
-                            save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}")
+                            save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}"+args.suffix)
                         else:
                             save_path = os.path.join(args.output_dir, f"checkpoint-{global_step}"+'-%s-%.0f'%(args.noise_type,args.noise_args))
                         ckpt_pipeline = DiffusionPipeline.from_pretrained(

@@ -15,3 +15,10 @@ paper_figure
 metrics/results
 metrics/get_avg_id.py
 metrics/id_embed/*
+evaluation/GrIDPure/256x256_diffusion_uncond.pt
+evaluation/GrIDPure/.git
+metrics/PSR_wauth_every_vgg.py
+metrics/PSR_wauth_every.py
+metrics/PSR_every_vgg.py
+metrics/PSR_every.py
+authorization/scripts/verify_record_mypath.sh

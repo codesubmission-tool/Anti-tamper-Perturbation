@@ -17,11 +17,6 @@ logging.basicConfig(level=logging.INFO,
     ])
 utils.set_seed(1042)
 
-# class Trainer:
-
-#      def __init__(self) -> None:
-#         super().__init__()
-
 def model_from_checkpoint(hidden_net, checkpoint):
     """ Restores the hidden_net object from a checkpoint object """
     hidden_net.encoder_decoder.load_state_dict(checkpoint['enc-dec-model'],strict=False)

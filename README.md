@@ -29,6 +29,7 @@ cd authorization
 
 bash scripts/infer.sh 
 ```
+
 **Protection Perturbation**
 
 Modify the settings defined on ./configs/protection.yaml
@@ -75,7 +76,64 @@ python eval.py --dataset CelebA-HQ --method CAAT
 python show.py --path evaluation_results
 ```
 
-<!-- **Complete ATP Pipeline** -->
+## :smiling_imp: Generation after the Purifications
 
-<!-- ## :computer: Training -->
+For the naive purifications, the purification process is nested into the dreambooth generation process.
+
+change the code in line 36 of generate.py
+```
+bash scripts/train_DB.sh
+```
+to
+```
+bash scripts/train_DB_withPurified.sh
+```
+
+For the SOTA purification GridPure, we need to purify the protected image first and then do generation.
+
+**Purification**
+```
+cd evaluation/GrIDPure
+bash purify_by_gridpure.sh input_path output_path
+```
+
+**Generation**
+Modify the path defined on ./configs/metrics.yaml
+```
+cd evaluation
+
+python generate.py --dataset CelebA-HQ --method CAAT
+```
+
+
+## :unlock: Verification after the Purifications
+
+Modify the settings defined on ./configs/verification.yaml
+```
+cd authorization
+
+bash scripts/verify_record.sh 
+```
+
+the bit error values are stored in metrics/results and can be used to calculate Prtection Success Rate (PSR).
+
+
+## :lock: Protection Success Rate Calculation
+
+- Modify the settings in merics/PSR.py defined in line 18, 22, 23
+- Modify the settings in merics/PSR_wauth.py defined in line 20, 27, 28, 29
+```
+cd metrics
+
+python PSR.py
+
+python PSR_wauth.py
+```
+
+
+<!-- ## :computer: Training
+
+You can also train your own authorization model. -->
+
+
 

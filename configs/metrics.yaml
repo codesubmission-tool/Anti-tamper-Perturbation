@@ -3,10 +3,11 @@ instance_dir: ~ # the path for image to be evaluated
 
 output_dir: ~  # the output dir for evaluation result, the results file will be named by the instance_dir
 
-prompt: ~ # the input prompt for generation
+prompt: a_photo_of_sks_person # the input prompt for generation
 
 CelebA-HQ:
-  id_emb_path: ~ 
+  id_emb_path: ~
+
 VGGFace2:
   id_emb_path: ~
 
@@ -15,13 +16,13 @@ CAAT:
   img_prefix: 250_noise_
 
 ANTIDB: 
-  dir_suffix: ~
-  img_prefix: ~
+  dir_suffix: noise-ckpt/50/
+  img_prefix: 50_noise_
 
 ADVDM: 
-  dir_suffix: ~
-  img_prefix: ~
+  dir_suffix: ''
+  img_prefix: noise_
 
 METACLOAK: 
-  dir_suffix: ~
-  img_prefix: ~
+  dir_suffix: noise-ckpt/final/
+  img_prefix: noisy_
