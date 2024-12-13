@@ -16,7 +16,7 @@ pip install -r requirements.txt
 
 The pretrained model weights and the random mask can be found from [release sources](https://github.com/codesubmission-tool/Anti-tamper-Perturbation/releases) of this repo.
 
-The links for datasets can be found from [FFHQ](https://github.com/NVlabs/ffhq-dataset), [CelebA-HQ](https://github.com/VinAIResearch/Anti-DreamBooth/tree/main), [VGGFace2](https://github.com/VinAIResearch/Anti-DreamBooth/tree/main).
+The links for datasets can be found from [FFHQ](https://github.com/NVlabs/ffhq-dataset), [CelebA-HQ](https://drive.google.com/drive/folders/1JX4IM6VMkkv4rER99atS4x4VGnoRNByV), [VGGFace2](https://drive.google.com/drive/folders/1JX4IM6VMkkv4rER99atS4x4VGnoRNByV).
 
 ## :zap: Quick Inference
 
@@ -131,9 +131,17 @@ python PSR_wauth.py
 ```
 
 
-<!-- ## :computer: Training
+## :computer: Training
 
-You can also train your own authorization model. -->
+You can also train your own authorization model.
+
+Modify the settings in ./configs/authorization.yaml
+
+```
+cd authorization
+
+bash scripts/train.sh 
+```
 
 
 

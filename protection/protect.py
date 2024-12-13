@@ -38,4 +38,14 @@ if method == 'CAAT':
             continue
         print(i_name)
         os.system('cd CAAT; CUDA_VISIBLE_DEVICES=0 bash train_CAAT_freq.sh %s %s %s'%(each+'/set_B',output_dir+'/'+i_name,config_path))
-        break
+        
+elif method == 'METACLOAK':
+    for each in instance_dir:
+        i_name = each.split('/')[-1] 
+        if '.pt' in i_name:
+            continue
+        print(i_name)
+        os.system('cd CAAT; CUDA_VISIBLE_DEVICES=0 bash train_CAAT_freq.sh %s %s %s'%(each+'/set_B',output_dir+'/'+i_name,config_path))
+
+else:
+    raise "Method Unknown"

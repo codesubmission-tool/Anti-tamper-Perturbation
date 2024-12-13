@@ -6,6 +6,13 @@ from networks.mapper import MappingNetwork
 from networks.encoder_decoder import *
 from networks.discriminator import Discriminator
 from networks.utils import VGGLoss
+import yaml
+import os
+
+def load_config(config_file):
+    with open(config_file, 'r') as f:
+        config = yaml.safe_load(f)
+    return config
 
 class HIDNet:
 
@@ -13,7 +20,9 @@ class HIDNet:
         super().__init__()
         self.device = device
         self.mapping_network = nn.Identity()
-        self.encoder_decoder = EncoderDecoder(encode_message_length=32,decode_message_length=32,pixel_space=pixel_space).to(self.device)
+        config_path = os.path.abspath(f'../configs/authorization.yaml')
+        self.config = load_config(config_path)
+        self.encoder_decoder = EncoderDecoder(encode_message_length=self.config['message_length'],decode_message_length=self.config['message_length'],pixel_space=pixel_space).to(self.device)
         self.discriminator = Discriminator().to(self.device)
         self.randomFlag = randomFlag
         self.pixel_space = pixel_space
@@ -27,19 +36,21 @@ class HIDNet:
             self.gamma = gamma
         self.init_optimizer()
         self.init_losses()
+        
 
 
     def init_optimizer(self):
-        self.optimizer_enc_dec = torch.optim.Adam(list(self.encoder_decoder.parameters()) + list(self.mapping_network.parameters()))
-        self.optimizer_discrim = torch.optim.Adam(self.discriminator.parameters())
+        self.optimizer_enc_dec = torch.optim.Adam(list(self.encoder_decoder.parameters()) + list(self.mapping_network.parameters()),lr=self.config['train']['lr'])
+        self.optimizer_discrim = torch.optim.Adam(self.discriminator.parameters(),lr=self.config['train']['lr'])
 
     def init_losses(self):
         self.bce_with_logits_loss = nn.BCEWithLogitsLoss().to(self.device)
         self.mse_loss = nn.MSELoss().to(self.device)
         self.vgg_loss = None 
-        self.adversarial_loss  = 1e-3
-        self.encoder_loss = 0.7
-        self.decoder_loss = 1
+        self.adversarial_loss  = self.config['train']['adversarial_loss']
+        self.encoder_loss = self.config['train']['encoder_loss']
+        self.decoder_loss = self.config['train']['decoder_loss']
+        self.reg_loss = self.config['train']['reg_loss']
 
     def train_one_batch(self,batch):
 
@@ -88,7 +99,7 @@ class HIDNet:
             g_loss_dec = self.mse_loss(decoded_messages, messages)
             g_loss_reg = self.mse_loss(encoded_dct, img_dct_masked)
             if not self.pixel_space:
-                reg_co = 10
+                reg_co = self.reg_loss
             else:
                 reg_co = 0
             g_loss = self.adversarial_loss * g_loss_adv + self.encoder_loss * g_loss_enc \
@@ -151,7 +162,7 @@ class HIDNet:
             g_loss_dec = self.mse_loss(decoded_messages, messages)
             g_loss_reg = self.mse_loss(encoded_dct, img_dct_masked)
             if not self.pixel_space:
-                reg_co = 10
+                reg_co = self.reg_loss
             else:
                 reg_co = 0
             g_loss = self.adversarial_loss * g_loss_adv + self.encoder_loss * g_loss_enc \

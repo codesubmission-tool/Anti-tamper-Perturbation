@@ -10,6 +10,15 @@ test:
   run_folder: ~ # Your path to store all the perturbed images folder
   store_folder: ~ # the name of folder for saving perturbed image in runs_folder
   
-train: ~
+train: 
+  run_folder: ~
+  store_folder: ~
+  epoch_num: 200
+  batch_size: 8
+  lr: 0.001
+  adversarial_loss: 0.001
+  encoder_loss: 0.7
+  decoder_loss: 1
+  reg_loss: 10
 
 

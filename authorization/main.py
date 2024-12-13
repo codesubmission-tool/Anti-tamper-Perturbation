@@ -9,6 +9,7 @@ import options
 from dataset import *
 import sys
 from tqdm import tqdm
+import yaml
 logging.basicConfig(level=logging.INFO,
     format='%(message)s',
     handlers=[
@@ -16,6 +17,11 @@ logging.basicConfig(level=logging.INFO,
         logging.StreamHandler(sys.stdout)
     ])
 utils.set_seed(1042)
+
+def load_config(config_file):
+    with open(config_file, 'r') as f:
+        config = yaml.safe_load(f)
+    return config
 
 def model_from_checkpoint(hidden_net, checkpoint):
     """ Restores the hidden_net object from a checkpoint object """
@@ -26,27 +32,26 @@ def model_from_checkpoint(hidden_net, checkpoint):
 
 args = options.get_args()
 locals().update(vars(args))
+config_path = os.path.abspath('../configs/authorization.yaml')
+config = load_config(config_path)
 
-message_length = 32
-epoch_num = 200
-# device = 'cuda:0'
-runs_folder = ''
-# experiment_name = 'experimentB'
+message_length = config['message_length']
+epoch_num = config['train']['epoch_num']
+run_folder = config['train']['run_folder']
 
 val_interval = 1000
 save_interval = 1000
 
 
 model = HIDNet(device,gamma=gamma,randomFlag=random_maskFlag,input_mask = input_mask,pixel_space=pixel_space)
-val_dataloader = torch.utils.data.DataLoader(CelebADataset(), batch_size=10, shuffle=False)
-train_dataloader = torch.utils.data.DataLoader(FFHQDataset(), batch_size=8, shuffle=True)
+val_dataloader = torch.utils.data.DataLoader(CelebADataset(path=config['data']['test_data_path']), batch_size=10, shuffle=False)
+train_dataloader = torch.utils.data.DataLoader(FFHQDataset(path=config['data']['train_data_path']), batch_size=config['train']['batch_size'], shuffle=True)
 
 
 #make exp_dir
-this_run_folder = utils.create_folder_for_run(runs_folder,experiment_name)
+this_run_folder = utils.create_folder_for_run(run_folder,config['train']['store_folder'])
 log_dir = this_run_folder
 tb_logger = utils.TensorBoardLogger(log_dir=log_dir)
-# torch.autograd.set_detect_anomaly(True)
 global_step = 0
 val_step = 0 
 

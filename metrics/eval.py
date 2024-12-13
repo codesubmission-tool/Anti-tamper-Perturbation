@@ -60,7 +60,8 @@ id_emb_path = config[f'{dataset}']['id_emb_path']
 with open(f'{id_emb_path}','rb') as f:
     avg_id_set = pickle.load(f)
 
-item_list = ['checkpoint-1000'] #['checkpoint-1000-JPEG-50','checkpoint-1000-JPEG-70','checkpoint-1000-Resize-2','checkpoint-1000-Resize-4']:
+item_list = ['checkpoint-1000'] 
+# item_list = ['checkpoint-1000-JPEG-50','checkpoint-1000-JPEG-70','checkpoint-1000-Resize-2','checkpoint-1000-Resize-4']
 trans = transforms.Compose([transforms.Resize((224, 224)), transforms.ToTensor()])
 for item in item_list:
     liqe, clip_iqac, clip_iqa, brisque_scores,ism_scores, RM_scores= [], [], [], [],[],[]
@@ -115,6 +116,5 @@ for item in item_list:
     }
 
     dir_name = instance_dir.split('/')[-1]
-    prompt_abv = prompt.split(' ')[2]
-    with open(output_path+f'/{dataset}_{prompt_abv}_{dir_name}_{item}','wb') as f:
+    with open(output_path+f'/{dataset}_{dir_name}_{item}_{prompt}','wb') as f:
         pickle.dump(results_dict,f)
