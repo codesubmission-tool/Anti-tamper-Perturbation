@@ -73,7 +73,7 @@ bitwise_avg_err = []
 
 paths = glob(f'{target_dir}/*/{dir_suffix}/*.png')
 bit_error_set = {'path':paths}
-# meaningless_suffix = "noise-ckpt/50"
+suffix_length = len(dir_suffix.split('/'))
 
 
 
@@ -100,7 +100,8 @@ for noise_type,noise_args in [(None,0),('JPEG',70),('JPEG',50),('Resize',2),('Re
             image = degrader.degrade(image).unsqueeze(0)
         image = image.to(device)
         image_name = image_path.split('/')[-1]
-        torch_set = torch.load(os.path.join(test_set,image_name.replace('.png','.pt').replace(img_prefix,'')))
+        id_dir = image_path.split('/')[-(1+suffix_length)]
+        torch_set = torch.load(os.path.join(test_set,id_dir+'_'+image_name.replace('.png','.pt').replace(img_prefix,'')))
         message = torch_set['message'].to(device)
         random_mask = torch_set['random_mask'].to(device)
         img_dct_masked, img_dct, random_mask = model.dctlayer(image,random_mask=random_mask)

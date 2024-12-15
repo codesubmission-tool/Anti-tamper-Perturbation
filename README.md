@@ -22,49 +22,53 @@ The links for datasets can be found from [FFHQ](https://github.com/NVlabs/ffhq-d
 
 **Authorized Perturbation**
 
-Modify the settings defined on ./configs/authorization.yaml
+Modify the settings defined on ./configs/authorization.yaml. You need to set down the data path and dataset you use and where to store the perturbed images.
 
 ```
 cd authorization
 
 bash scripts/infer.sh 
 ```
+Inside infer.sh, you can define the path to the pretrained authoirzation model.
 
 **Protection Perturbation**
 
-Modify the settings defined on ./configs/protection.yaml
+Modify the settings defined on ./configs/protection.yaml. You need to define the path to the authorized image, the output path and the path to the mask parameters.
 
 ```
 cd protection
 
-python protection --method CAAT
+python protect.py --method CAAT
 ```
+you can define the protection perturbation algorithm by change hyper-parameter --method to ['CAAT','ANTIDB', 'ADVDM' ,'METACLOAK']
 
-**Verification after the Perturbation**
+**Verification after the Protection Perturbation**
 
-Modify the settings defined on ./configs/verification.yaml
+Modify the settings defined on ./configs/verification.yaml. You need to define the path to the authorized image (message_dir), the output path, the method used for protection and the dataset name.
 
 ```
 cd authorization
 
 bash scripts/verify.sh 
 ```
+Inside verify.sh, you can define the path to the pretrained authoirzation model.
 
 **Generation after the Perturbation**
 
-Modify the settings defined on ./configseval_{CelebA-HQ}/{VGGFac2}
+Modify the settings defined on ./configseval_{CelebA-HQ}/{VGGFac2}. You need to define the path to original dataset images and the output path of the generation.
 
 ```
 cd evaluation
 
 python generate.py --dataset CelebA-HQ --method CAAT
 ```
+You need to define the dataset name and protection perturbation name by --dataset and --method here. 
 
 **Protection Performance calculation after the Generation**
 
 Download ID embedding from [release sources](https://github.com/codesubmission-tool/Anti-tamper-Perturbation/releases).  
 
-Modify the settings defined on ./configs/metrics.yaml
+Modify the settings defined on ./configs/metrics.yaml. You need to define the path to the image to be evaluated and the path to store **result record file**, and the prompt used to do generation (for metirc "ImageReward" calculation).
 
 Download [LIQE.pt](https://drive.google.com/file/d/1GoKwUKNR-rvX11QbKRN8MuBZw2hXKHGh/view) from [url](https://github.com/zwx8981/LIQE). Place it to ./metrics/LIQE/checkpoints
 
@@ -75,8 +79,12 @@ python eval.py --dataset CelebA-HQ --method CAAT
 
 python show.py --path evaluation_results
 ```
+You need to define the dataset name and protection perturbation name by --dataset and --method here. 
+The --path is used to define the path to **result record file**. By modifying the eval.py code in line 63 to line 64 (commented), you can also evaluate the purified generation result.
 
 ## :smiling_imp: Generation after the Purifications
+
+**Naive Purification**
 
 For the naive purifications, the purification process is nested into the dreambooth generation process.
 
@@ -91,37 +99,40 @@ bash scripts/train_DB_withPurified.sh
 
 For the SOTA purification GridPure, we need to purify the protected image first and then do generation.
 
-**Purification**
+**SOTA Purification**
 ```
 cd evaluation/GrIDPure
 bash purify_by_gridpure.sh input_path output_path
 ```
 
 **Generation**
-Modify the path defined on ./configs/metrics.yaml
+
+Modify the settings defined on ./configseval_{CelebA-HQ}/{VGGFac2}. You need to define the path to original dataset images and the output path of the generation.
 ```
 cd evaluation
 
 python generate.py --dataset CelebA-HQ --method CAAT
 ```
 
-
 ## :unlock: Verification after the Purifications
 
-Modify the settings defined on ./configs/verification.yaml
+Modify the settings defined on ./configs/verification.yaml. You need to define the path to the authorized image (message_dir), the output path, the method used for protection and the dataset name.
 ```
 cd authorization
 
 bash scripts/verify_record.sh 
 ```
+Inside verify_record.sh, you can define the path to the pretrained authoirzation model.
 
-the bit error values are stored in metrics/results and can be used to calculate Protection Success Rate (PSR).
+the bit error values are stored in metrics/results by default and can be used to calculate Protection Success Rate (PSR).
 
 
 ## :lock: Protection Success Rate Calculation
 
 - Modify the settings in merics/PSR.py defined in line 18, 22, 23
 - Modify the settings in merics/PSR_wauth.py defined in line 20, 27, 28, 29
+
+PSR.py is for the images only with protection perturbation, while PSR_wauth.py is for the images with authorization perturbation and protection perturbation (i.e., ATP).
 ```
 cd metrics
 

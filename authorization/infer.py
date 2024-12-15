@@ -102,7 +102,12 @@ for batch_id, (path,image) in tqdm(enumerate(val_dataloader)):
         transforms.ToPILImage()(((e_img.clip(-1,1)+1)/2).clip(0,1).cpu()).save('%s/%s.png'%(dir_path,image_name))
         # print(image_name)
         torch_set ={'random_mask':random_mask.cpu(),'message':message[id].cpu()}
-        torch.save(torch_set,'%s/%s.pt'%(testdir,image_name))
+        if dataset == 'VGGFace2':
+            torch.save(torch_set,'%s/%s.pt'%(testdir,id_dir+'_'+image_name))
+        elif dataset == 'CelebA-HQ':
+            torch.save(torch_set,'%s/%s.pt'%(testdir,image_name))
+        else:
+            raise 'Problem on Dataset'
         
 ###########Verification###########
 random_mask = model.random_mask
@@ -134,7 +139,8 @@ for path in tqdm(paths):
         image = degrader.degrade(image).unsqueeze(0)
     image = image.to(device)
     image_name = image_path.split('/')[-1]
-    torch_set = torch.load(os.path.join(test_set,image_name.replace('.png','.pt').replace('50_noise_','')))
+    id_dir = image_path.split('/')[-3]
+    torch_set = torch.load(os.path.join(test_set,id_dir+'_'+image_name.replace('.png','.pt')))
     message = torch_set['message'].to(device)
     random_mask = torch_set['random_mask'].to(device)
     img_dct_masked, img_dct, random_mask = model.dctlayer(image,random_mask=random_mask)

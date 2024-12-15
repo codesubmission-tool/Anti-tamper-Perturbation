@@ -12,17 +12,17 @@ method: CAAT
 dataset: CelebA-HQ
 
 CAAT: 
-  dir_suffix: 250
+  dir_suffix: 250/
   img_prefix: 250_noise_
 
 ANTIDB: 
-  dir_suffix: ~
-  img_prefix: ~
+  dir_suffix: noise-ckpt/50/
+  img_prefix: 50_noise_
 
 ADVDM: 
-  dir_suffix: ~
-  img_prefix: ~
+  dir_suffix: ''
+  img_prefix: noise_
 
 METACLOAK: 
-  dir_suffix: ~
-  img_prefix: ~
+  dir_suffix: noise-ckpt/final/
+  img_prefix: noisy_
