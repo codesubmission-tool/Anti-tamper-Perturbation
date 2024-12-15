@@ -81,7 +81,7 @@ for _ in range(epoch_num):
             tb_logger.save_images((encoded_images[:2,:,:,:]+1)/2,val_step)
 
         if global_step % save_interval == 0:
-            utils.save_checkpoint(model,experiment_name=experiment_name, epoch=global_step,checkpoint_folder=os.path.join(this_run_folder,'checkpoints'))
+            utils.save_checkpoint(model,experiment_name=config['train']['store_folder'], epoch=global_step,checkpoint_folder=os.path.join(this_run_folder,'checkpoints'))
             
 tb_logger.writer.close()
 

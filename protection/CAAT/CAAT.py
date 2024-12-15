@@ -945,7 +945,6 @@ def main(args):
                     def zero_low_frequencies(x):
                         x_dct = dct_img(x)
                         x_dct *= random_mask
-                        # print(float(config['CAAT']['step_size']),type(config['CAAT']['step_size']))
                         x_idct = idct_img(float(config['CAAT']['step_size'])*x_dct.sign())
                         return x_idct
                     grad = zero_low_frequencies(pertubed_images.grad)
@@ -955,7 +954,7 @@ def main(args):
                     adv_images_dct = dct_img(adv_images)
                     original_images_dct = dct_img(original_images)
                     
-                    eps= config['CAAT']['radius']
+                    eps= float(config['CAAT']['radius'])
                     # print(eps)
                     eta = torch.clamp(adv_images_dct - original_images_dct, min=-eps, max=+eps)*random_mask
                     pertubed_images =  torch.clamp(idct_img(original_images_dct + eta), min=-1, max=+1).detach_()
@@ -981,7 +980,7 @@ def main(args):
                             save_path = os.path.join(save_folder, f"{global_step}_noise_{img_name}")
                             Image.fromarray(
                                 (img_pixel * 127.5 + 128).clamp(0, 255).to(torch.uint8).permute(1, 2, 0).cpu().numpy()
-                            ).save(save_path.replace('jpg','png'))
+                            ).save(save_path)
                         print(f"Saved noise at step {global_step} to {save_folder}")
 
 

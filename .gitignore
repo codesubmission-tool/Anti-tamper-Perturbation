@@ -22,3 +22,5 @@ metrics/PSR_wauth_every.py
 metrics/PSR_every_vgg.py
 metrics/PSR_every.py
 authorization/scripts/verify_record_mypath.sh
+protection/Metacloak/prior-data
+protection/Metacloak/exp_data

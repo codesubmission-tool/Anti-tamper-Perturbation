@@ -45,7 +45,24 @@ elif method == 'METACLOAK':
         if '.pt' in i_name:
             continue
         print(i_name)
-        os.system('cd CAAT; CUDA_VISIBLE_DEVICES=0 bash train_CAAT_freq.sh %s %s %s'%(each+'/set_B',output_dir+'/'+i_name,config_path))
+        project_path = os.path.abspath('./Metacloak')
+        os.system('cd Metacloak; CUDA_VISIBLE_DEVICES=0 bash script/gen_and_eval_freq.sh %s %s %s'%(each,output_dir+'/'+i_name,project_path))
+
+elif method == 'ADVDM':
+    for each in instance_dir:
+        i_name = each.split('/')[-1] 
+        if '.pt' in i_name:
+            continue
+        print(i_name)
+        os.system('cd ADVDM; CUDA_VISIBLE_DEVICES=0 bash scripts/train_adv_freq.sh %s %s %s'%(each+'/set_B',output_dir+'/'+i_name,config_path))
+
+elif method == 'ANTIDB':
+    for each in instance_dir:
+        i_name = each.split('/')[-1] 
+        if '.pt' in i_name:
+            continue
+        print(i_name)
+        os.system('cd ANTIDB; CUDA_VISIBLE_DEVICES=0 bash scripts/gen_aspl_freq.sh %s %s %s'%(each,output_dir+'/'+i_name,config_path))
 
 else:
     raise "Method Unknown"

@@ -115,7 +115,7 @@ cd authorization
 bash scripts/verify_record.sh 
 ```
 
-the bit error values are stored in metrics/results and can be used to calculate Prtection Success Rate (PSR).
+the bit error values are stored in metrics/results and can be used to calculate Protection Success Rate (PSR).
 
 
 ## :lock: Protection Success Rate Calculation
@@ -142,6 +142,7 @@ cd authorization
 
 bash scripts/train.sh 
 ```
-
+<!-- 
+## Acknowledgement -->
 
 
