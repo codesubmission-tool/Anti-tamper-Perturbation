@@ -132,6 +132,8 @@ the bit error values are stored in metrics/results by default and can be used to
 - Modify the settings in merics/PSR.py defined in line 18, 22, 23
 - Modify the settings in merics/PSR_wauth.py defined in line 20, 27, 28, 29
 
+You need to define the protection method used among ['CAAT','ANTIDB', 'ADVDM' ,'METACLOAK']. You need to define the path to the result record file.
+If you use PSR_wauth.py, you also need to define the path to the file record bit error calues.
 PSR.py is for the images only with protection perturbation, while PSR_wauth.py is for the images with authorization perturbation and protection perturbation (i.e., ATP).
 ```
 cd metrics
@@ -153,7 +155,11 @@ cd authorization
 
 bash scripts/train.sh 
 ```
-<!-- 
-## Acknowledgement -->
+
+## :smile: Acknowledgement
+
+To construct this project, we borrowed codes from: [LIQE](https://github.com/zwx8981/LIQE), [GridPure](https://github.com/VinAIResearch/Anti-DreamBooth), [ANTIDB](https://github.com/VinAIResearch/Anti-DreamBooth), [METACLOAK](https://github.com/liuyixin-louis/MetaCloak), [CAAT](https://github.com/CO2-cityao/CAAT/tree/main), [HiDDeN](https://github.com/ando-khachatryan/HiDDeN), [BasicSR](https://github.com/XPixelGroup/BasicSR).
+
+Thanks for their excellent work!
 
 
