@@ -14,7 +14,7 @@ metrics/LIQE/IQA_Database/*
 metrics/LIQE/*png
 paper_figure
 metrics/results
-metrics/get_avg_id.py
+metrics/get_avg_id_code.py
 metrics/id_embed/*
 evaluation/GrIDPure/256x256_diffusion_uncond.pt
 metrics/PSR_wauth_every_vgg.py
