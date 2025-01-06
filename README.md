@@ -68,7 +68,7 @@ You need to define the dataset name and protection perturbation name by --datase
 
 Download ID embedding from [release sources](https://github.com/codesubmission-tool/Anti-tamper-Perturbation/releases).  
 
-Modify the settings defined on ./configs/metrics.yaml. You need to define the path to the image to be evaluated and the path to store **result record file**, and the prompt used to do generation (for metirc "ImageReward" calculation).
+Modify the settings defined on ./configs/metrics.yaml. You need to define the path to the image to be evaluated and the path to store **result record file**, and the prompt used to do generation. ( the dir_suffix need to be changed to '' when evaluate images purified by gridpure)
 
 Download [LIQE.pt](https://drive.google.com/file/d/1GoKwUKNR-rvX11QbKRN8MuBZw2hXKHGh/view) from [url](https://github.com/zwx8981/LIQE). Place it to ./metrics/LIQE/checkpoints
 
@@ -97,7 +97,7 @@ to
 bash scripts/train_DB_withPurified.sh
 ```
 
-For the SOTA purification GridPure, we need to purify the protected image first and then do generation.
+For the SOTA purification GridPure, we need to purify the protected image first and then do generation. Modify the method selection in line 7 of purify_by_gridpure.sh.
 
 **SOTA Purification**
 ```

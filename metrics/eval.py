@@ -40,7 +40,7 @@ def load_config(config_file):
 
 args = get_args()
 locals().update(vars(args))
-assert dataset in set(['VGGFac2','CelebA-HQ'])
+assert dataset in set(['VGGFace2','CelebA-HQ'])
 assert method in set(['CAAT','ANTIDB', 'ADVDM' ,'METACLOAK'])
 
 config_path = os.path.abspath(f'../configs/metrics.yaml')

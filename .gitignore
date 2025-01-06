@@ -24,3 +24,6 @@ metrics/PSR_every.py
 authorization/scripts/verify_record_mypath.sh
 protection/Metacloak/prior-data
 protection/Metacloak/exp_data
+result_copy.sh
+evaluation/generate_clean.py
+results_img
