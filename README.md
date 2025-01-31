@@ -16,7 +16,7 @@ pip install -r requirements.txt
 
 The pretrained model weights and the random mask can be found from [release sources](https://github.com/codesubmission-tool/Anti-tamper-Perturbation/releases) of this repo.
 
-The links for datasets can be found from [FFHQ](https://github.com/NVlabs/ffhq-dataset), [CelebA-HQ](https://drive.google.com/drive/folders/1JX4IM6VMkkv4rER99atS4x4VGnoRNByV), [VGGFace2](https://drive.google.com/drive/folders/1JX4IM6VMkkv4rER99atS4x4VGnoRNByV).
+The links for datasets can be found from [FFHQ](https://github.com/NVlabs/ffhq-dataset), [CelebA-HQ](https://drive.google.com/drive/folders/1JX4IM6VMkkv4rER99atS4x4VGnoRNByV), [VGGFace2](https://drive.google.com/drive/folders/1JX4IM6VMkkv4rER99atS4x4VGnoRNByV), [LFW](https://pan.baidu.com/s/1AtJGB5slyVzP_UmvTUqtkw?pwd=83a4)
 
 ## :zap: Quick Inference
 
